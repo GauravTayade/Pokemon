@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Card, CardContent, Typography, CardActions} from "@mui/material";
 
 const PokemonCard = (props) =>{
@@ -12,6 +12,7 @@ const PokemonCard = (props) =>{
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'contain',
             boxShadow:3}}>
+
             <CardContent sx={{
                 height:160,
                 width:250,

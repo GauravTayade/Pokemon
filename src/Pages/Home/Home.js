@@ -8,6 +8,7 @@ import axios from "axios";
 //import components here
 import Header from "../AppBar/Header";
 import PokemonCard from "../PokemonCard/PokemonCard";
+import AbilitiesList from "../Abilities/AbilitiesList";
 
 const axiosClient = axios.create({
     baseURL:'https://pokeapi.co/api/v2',
@@ -18,6 +19,7 @@ const Home = (props)=>{
 
     const [pokemons,setPokemons] = useState(null);
     const [pokemon,setPokemon] = useState(null);
+    const [pokemonState,setPokemonState] = useState(null);
     const [isDrawer,setIsDrawer] = useState(false);
 
     useEffect(()=>{
@@ -63,8 +65,14 @@ const Home = (props)=>{
                     <Grid container>
                         <Grid container>
                             <Grid item xs={4}>
-                                <Typography variant="h4" color="grey" sx={{display:'flex',justifyContent:'center'}}>
+                                <Typography variant="h3" color="grey" sx={{display:'flex',justifyContent:'center'}}>
                                     {pokemon.name.toUpperCase()}
+                                </Typography>
+                                <Typography variant="h4" color="grey" sx={{display:'flex',justifyContent:'center'}}>
+                                    {pokemon.types[0].type.name}
+                                </Typography>
+                                <Typography variant="h6" color="grey" sx={{display:'flex',justifyContent:'center'}}>
+                                    Height:{ pokemon.height } dcm  Weight:{ pokemon.weight } hgm
                                 </Typography>
                                 <Card sx={{
                                     width: 350,
@@ -86,23 +94,7 @@ const Home = (props)=>{
                                 </Card>
                             </Grid>
                             <Grid item xs={4}>
-                                <List>
-                                    <ListItem>
-                                        <ListItemAvatar>
-                                            <Avatar>
-                                                <ElectricBoltRounded/>
-                                            </Avatar>
-                                        </ListItemAvatar>
-                                    </ListItem>
-                                    <ListItem>
-                                        <ListItemAvatar>
-                                            <Avatar>
-                                                <ElectricBoltRounded/>
-                                            </Avatar>
-                                        </ListItemAvatar>
-                                    </ListItem>
-                                    <ListItem></ListItem>
-                                </List>
+                                <AbilitiesList abilities={pokemon.abilities}/>
                             </Grid>
                             <Grid item xs={4}>
 
