@@ -1,34 +1,50 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Card, CardContent, Typography, CardActions} from "@mui/material";
+import {Card, CardContent, Typography, CardMedia} from "@mui/material";
+import {motion} from 'framer-motion';
 
 const PokemonCard = (props) =>{
-    return(
-        <Card sx={{
-            width: 250,
-            height:250,
-            margin:'2rem',
-            background:'url("https://i.pinimg.com/564x/b5/21/54/b5215484083edfae0d98a27689f5adc2.jpg")',
-            backgroundPosition: 'top center',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'contain',
-            boxShadow:3}}>
 
+    const pokemon = props.pokemon;
+    const getPokemonDetails = props.getPokemonDetails;
+
+    return(
+        <motion.div whileTap={{ scale: 0.8 }}>
+        <Card sx={{
+            minWidth: 150,
+            minHeight:150,
+            maxHeight:320,
+            maxWidth:300,
+            cursor:'help',
+            backgroundColor:'#faf9f6',
+            margin:'1.5rem',
+            boxShadow:3}}
+            onClick={()=>getPokemonDetails(pokemon.url)}
+        >
+            <CardMedia
+                component='img'
+                sx={{
+                    minHeight:125,
+                    maxHeight:250,
+                    minWidth:125,
+                    maxWidth:275,marginX:'auto'}}
+                image={pokemon.image}
+                alt='pokemon image'/>
             <CardContent sx={{
-                height:160,
-                width:250,
-                textAlign: 'center',
-                display:'table-cell',
-                verticalAlign:'middle',
+                minWidth:150,
+                maxWidth:300,
+                marginBottom:'0.5rem'
             }}>
-                <Typography variant="h4" color="grey">
-                    {props.pokemon.name.toUpperCase()}
+                <Typography variant="h4" color="grey"
+                            sx={{   display:'flex',
+                                    width:'100%',
+                                    justifyContent:'center'}}>
+                    {pokemon.name.toUpperCase()}
                 </Typography>
             </CardContent>
-            <CardActions sx={{justifyContent:'flex-end'}}>
-                <Button color='success' variant='outlined' onClick={()=>props.getPokemonDetails(props.pokemon.url)}>Details</Button>
-            </CardActions>
         </Card>
+        </motion.div>
     )
+
 }
 
 export default PokemonCard;

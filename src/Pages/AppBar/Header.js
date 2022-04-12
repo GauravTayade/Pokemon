@@ -28,18 +28,10 @@ const Header = (props) =>{
     };
 
     return(
-        <AppBar position="sticky"  sx={{ flexGrow: 1 }}>
+        <AppBar position="sticky"  sx={{ flexGrow: 1, backgroundColor:'#064635' }}>
             <Container maxWidth="false">
                 <Toolbar disableGutters>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-                    >
-                        LOGO
-                    </Typography>
-
+                    <img src="/images/logo.png" alt="logo" height='50' width='160'/>
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
@@ -82,7 +74,7 @@ const Header = (props) =>{
                         component="div"
                         sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
                     >
-                        LOGO
+                        <img src="/images/logo.png" alt="logo" height='50' width='160'/>
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
