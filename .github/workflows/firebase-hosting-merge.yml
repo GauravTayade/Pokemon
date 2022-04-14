@@ -20,4 +20,4 @@ jobs:
           channelId: live
           projectId: pokemon-fd7ad
         env:
-          CI: false
+          CI: ""
