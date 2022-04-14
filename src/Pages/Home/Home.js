@@ -9,10 +9,10 @@ import {
     Grid,
     ListItem,
     List,
-    ListItemAvatar, Avatar, ListItemText, Typography
+    ListItemAvatar, Avatar, ListItemText, Typography, Fab
 } from "@mui/material";
 
-import {ChildFriendly} from "@mui/icons-material";
+import {ArrowBack, ArrowForward, ChildFriendly} from "@mui/icons-material";
 
 //import libraries
 import axios from "axios";
@@ -40,13 +40,41 @@ const Home = (props)=> {
         setIsDrawer(false);
     }
 
-    const getNextPokemons = async() =>{
-        if(pageData.next !== null){
+    const getNextPokemons = async(direction) =>{
+        console.log(direction)
+        if( direction===1 && pageData.next !== null){
             await axios.get(pageData.next)
+                .then(response=>{
+                    console.log(response.data)
+                    setPageData({...pageData,
+                        next:response.data.next? response.data.next : null,
+                        prev:response.data.previous? response.data.previous : null,
+                        count:response.data.count
+                    })
+
+                    Promise.all(
+                        response.data.results.map(async(pokemon)=>{
+                            await axios.get(pokemon.url)
+                                .then(response=>{
+                                    pokemonArray.push({
+                                        name:pokemon.name,
+                                        url: {character:pokemon.url,species:response.data.species.url},
+                                        image: response.data.sprites.other['official-artwork'].front_default
+                                    })
+
+
+                                })
+                        })
+                    ).then(()=>{
+                        setPokemonList(pokemonArray)
+                    })
+                })
+        }else if(direction === 0 && pageData.prev !== null){
+            await axios.get(pageData.prev)
                 .then(response=>{
                     setPageData({...pageData,
                         next:response.data.next? response.data.next : null,
-                        prev:response.data.prev? response.data.prev : null,
+                        prev:response.data.previous? response.data.previous : null,
                         count:response.data.count
                     })
 
@@ -72,7 +100,7 @@ const Home = (props)=> {
                 .then(response=>{
                     setPageData({...pageData,
                         next:response.data.next? response.data.next : null,
-                        prev:response.data.prev? response.data.prev : null,
+                        prev:response.data.previous? response.data.previous : null,
                         count:response.data.count
                     })
 
@@ -94,12 +122,14 @@ const Home = (props)=> {
                         setPokemonList(pokemonArray)
                     })
                 })
+
         }
     }
 
     const getPokemonDetails =async(url) =>{
 
         const pokemonObj ={}
+
         Promise.all([
         await axios.get(url.character).then(async(response)=>{
 
@@ -163,7 +193,16 @@ const Home = (props)=> {
                     </Grid>
                     <Grid container>
                         <Grid container sx={{display:'flex', justifyContent:'center',marginBottom:'2rem'}}>
-                            <Button sx={{padding:'0.75rem 2rem',backgroundColor:'#064635', fontSize:'1rem'}} variant='contained' onClick={()=>getNextPokemons()}>Next</Button>
+                            {pageData.prev?
+                                <Fab sx={{padding:'0.75rem 2rem',backgroundColor:'#064635', fontSize:'1rem'}}>
+                                    <ArrowBack onClick={()=>getNextPokemons(0)}/>
+                                </Fab>
+                                :
+                                ''
+                            }
+                            <Fab sx={{padding:'0.75rem 2rem',backgroundColor:'#064635', fontSize:'1rem'}}>
+                                <ArrowForward onClick={()=>getNextPokemons(1)}/>
+                            </Fab>
                         </Grid>
                     </Grid>
                 </Grid>
