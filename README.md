@@ -1,3 +1,7 @@
+You can viist this project on following link
+
+https://myglobal.ca/
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
